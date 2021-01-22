@@ -1,5 +1,5 @@
 from collections import namedtuple
-from dfa1_and_3 import DFA
+from dfa_1 import DFA
 Transition = namedtuple(
     'transition',
     [
