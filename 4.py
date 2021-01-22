@@ -47,7 +47,7 @@ class PDA(DFA):
 
     def get_next_state(self, cur_state, cur_symbol):
         for t in self.transitions:
-            if t.current_state == cur_state and t.symbol == cur_symbol:
+            if t.cur_state == cur_state and t.symbol == cur_symbol:
                 return t.next_state, t.del_of_stack, t.add_in_stack
 
 
