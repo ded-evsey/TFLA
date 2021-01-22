@@ -1,8 +1,5 @@
-from collections import nametuple
-transition = nametuple(
-    'Transition',
-    'current_state symbol next_state'
-)
+from collections import namedtuple
+
 class DFA:
     def __init__(self, states=[], symbols=[], start_state='', end_states=[], transitions=[]):
         self.states = states
@@ -47,9 +44,7 @@ class DFA:
             cur_state = self.get_next_state(cur_state, s)
             if cur_state == " ":
                 return False
-        if self.is_end_states(cur_state):
-            return True
-        return False
+        return self.is_end_states(cur_state)
 
     def get_next_state(self, cur_state, cur_symbol):
         for t in self.transitions:
@@ -59,3 +54,49 @@ class DFA:
 
     def is_end_states(self, cur_state):
         return cur_state in self.end_states
+
+Transition = namedtuple(
+    'Transition',
+    'current_state symbol next_state'
+)
+def init_dfa():
+    buf_dfa = DFA()
+    start_state = '0'
+    end_states = ['2']
+    states = ['0','1','2']
+    eng_symbols = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    num_symbols = ['1', '2', '3', '4', '5','6', '7', '8', '9', '0']
+
+    cur_transitions = []
+    for s in eng_symbols:
+        cur_transitions.append(
+            Transition('0',s,'1')
+        )
+        buf_dfa.add_symbol(s)
+
+    for n in num_symbols:
+        cur_transitions.append(
+            Transition('1',n,'2')
+        )
+        cur_transitions.append(
+            Transition('2',n,'2')
+        )
+        buf_dfa.add_symbol(n)
+    for state in  states:
+        buf_dfa.add_state(state)
+    buf_dfa.set_start_state(start_state)
+    for state in end_states:
+        buf_dfa.add_end_state(state)
+    for t in cur_transitions:
+        buf_dfa.add_transition(t)
+    return buf_dfa
+if __name__ == '__main__':
+    one_dfa = init_dfa()
+    check_automate_lines = ('a1234591', 'aaaaa')
+    for check_automate in check_automate_lines:
+        print('Entered line for  DFA', check_automate)
+        print('Result work DFA')
+        if one_dfa.init_work(check_automate):
+            print('line in alphabet')
+        else:
+            print('line not in alphabet')
