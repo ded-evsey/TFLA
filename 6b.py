@@ -1,6 +1,6 @@
 from ply import lex
 import ply.yacc as yacc
-
+import math
 tokens = (
     'PLUS',
     'PERCENT',
@@ -10,6 +10,7 @@ tokens = (
     'LPAREN',
     'RPAREN',
     'NUMBER',
+    'SQRT'
 )
 
 t_ignore = ' \t'
@@ -21,6 +22,7 @@ t_TIMES   = r'\*'
 t_DIV     = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
+t_SQRT = r'sqrt'
 
 def t_NUMBER( t ) :
     r'[0-9]+'
@@ -80,11 +82,16 @@ def p_parens( p ) :
     'expr : LPAREN expr RPAREN'
     p[0] = p[2]
 
+def p_SQRT(p):
+    'expr : SQRT LPAREN expr RPAREN'
+    p[0] = math.sqrt(p[3])
+
 def p_error( p ):
     print("Syntax error in input!")
 
+
 parser = yacc.yacc()
 if __name__ =='__main__':
-    print("Выражение для рассчёта : 3#6+3#6")
-    res = parser.parse("3#6+3#6")
+    print("Выражение для рассчёта : sqrt(3#6+3#6)")
+    res = parser.parse("sqrt(3#6+3#6)")
     print("Результат выражения: ", res)
