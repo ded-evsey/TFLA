@@ -1,5 +1,5 @@
 from collections import namedtuple
-from dfa import DFA
+from dfa_1 import DFA
 Transition = namedtuple(
     'Transition',
     'current_state symbol next_state'
